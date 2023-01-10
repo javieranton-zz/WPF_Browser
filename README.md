@@ -1,0 +1,3 @@
+# WPF_Browser
+A simple WPF browser based on WebView2 with minimal navigation...
+Defaults to DuckDuckGo![wpfBrowser](https://user-images.githubusercontent.com/11293898/211432085-87977ef1-e0cd-483f-aee4-073a6b63c96d.png)
