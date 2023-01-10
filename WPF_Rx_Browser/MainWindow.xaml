@@ -1,0 +1,74 @@
+﻿<Window x:Class="WPF_Rx_Browser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_Rx_Browser"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        Background="#211f20"
+        mc:Ignorable="d"
+        Title="WPF Rx Browser" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Style="{StaticResource NavigationBar}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ItemsControl Grid.Column="0">
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="FrameworkElement.Margin" Value="5"/>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <UserControl>
+                    <Button Content="➜" Name="BackButton" IsEnabled="{Binding BackBtnEnabled, UpdateSourceTrigger=PropertyChanged}" Command="{Binding BackCommand}">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="180" />
+                                <TranslateTransform Y="40"/>
+                                <TranslateTransform X="34"/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                    </Button>
+                </UserControl>
+                <UserControl>
+                    <Button Content="➜" IsEnabled="{Binding ForwardBtnEnabled, UpdateSourceTrigger=PropertyChanged}" Command="{Binding ForwardCommand}"/>
+                </UserControl>
+                <UserControl>
+                    <Button Content="↻" Command="{Binding RefreshCommand}"/>
+                </UserControl>
+            </ItemsControl>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <UserControl Grid.Column="0" Padding="5,5,5,5">
+                    <TextBox Name="URLTextbox" Style="{StaticResource DarkTextBoxStyle}" Text="{Binding SearchBarURL, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.InputBindings>
+                            <KeyBinding 
+                                Key="Enter" 
+                                Command="{Binding URLTextBoxEnterKeyCommand}"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
+                </UserControl>
+                <UserControl Grid.Column="1" Padding="0,5,5,5">
+                    <Button Content="➤" Name="SearchButton" Command="{Binding SearchCommand}"/>
+                </UserControl>
+            </Grid>
+        </Grid>
+        <DockPanel Grid.Row="1" Grid.Column="0">
+            <wv2:WebView2 Name="Browser"
+                  Source="https://www.duckduckgo.com"/>
+        </DockPanel>
+    </Grid>
+</Window>
